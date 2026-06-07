@@ -8,7 +8,6 @@
 use nota_codec::{NotaEnum, NotaRecord, NotaTransparent};
 use rkyv::{Archive, Deserialize as RkyvDeserialize, Serialize as RkyvSerialize};
 use signal_frame::signal_channel;
-use signal_sema::SemaObservation;
 
 pub use signal_engine_management::{
     ComponentDesiredState, ComponentHealth, ComponentKind, ComponentName, ComponentStatus,
@@ -209,7 +208,21 @@ pub struct OperationReceived {
     pub operation: OperationKind,
 }
 
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEnum, Debug, Clone, Copy, PartialEq, Eq, Hash,
+)]
+pub enum EffectOutcome {
+    Launched,
+    Retired,
+    Started,
+    Stopped,
+    Observed,
+    Rejected,
+    NoChange,
+}
+
 #[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
 pub struct EffectEmitted {
-    pub observation: SemaObservation,
+    pub operation: OperationKind,
+    pub outcome: EffectOutcome,
 }

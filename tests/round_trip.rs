@@ -2,13 +2,14 @@ use nota_codec::{Decoder, Encoder, NotaDecode, NotaEncode};
 use owner_signal_persona::{
     ActionAcceptance, ActionRejection, ActionRejectionReason, ComponentDesiredState,
     ComponentHealth, ComponentName, ComponentShutdown, ComponentStartup, ComponentStatus,
-    EngineCatalog, EngineCatalogEntry, EngineCatalogScope, EngineGeneration, EngineLabel,
-    EngineLaunch, EnginePhase, EngineStatus, EngineStatusScope, Frame, FrameBody, Operation,
-    OperationKind, Query, Reply, RetirementRejection, RetirementRejectionReason,
+    EffectEmitted, EffectOutcome, EngineCatalog, EngineCatalogEntry, EngineCatalogScope,
+    EngineGeneration, EngineLabel, EngineLaunch, EnginePhase, EngineStatus, EngineStatusScope,
+    Event, Frame, FrameBody, Operation, OperationKind, OperationReceived, Query, Reply,
+    RetirementRejection, RetirementRejectionReason,
 };
 use signal_frame::{
     ExchangeIdentifier, ExchangeLane, LaneSequence, NonEmpty, Reply as FrameReply, RequestPayload,
-    SessionEpoch, SubReply,
+    SessionEpoch, StreamEventIdentifier, SubReply, SubscriptionTokenInner,
 };
 
 fn exchange() -> ExchangeIdentifier {
@@ -21,6 +22,14 @@ fn exchange() -> ExchangeIdentifier {
 
 fn completed_reply(payload: Reply) -> FrameReply<Reply> {
     FrameReply::committed(NonEmpty::single(SubReply::Ok(payload)))
+}
+
+fn event_identifier() -> StreamEventIdentifier {
+    StreamEventIdentifier::new(
+        SessionEpoch::new(1),
+        ExchangeLane::Acceptor,
+        LaneSequence::first(),
+    )
 }
 
 fn engine_identifier(label: &str) -> signal_persona_origin::EngineIdentifier {
@@ -65,6 +74,21 @@ fn round_trip_reply(reply: Reply) -> Reply {
     }
 }
 
+fn round_trip_event(event: Event) -> Event {
+    let frame = Frame::new(FrameBody::SubscriptionEvent {
+        event_identifier: event_identifier(),
+        token: SubscriptionTokenInner::new(11),
+        event: event.clone(),
+    });
+    let bytes = frame.encode_length_prefixed().expect("encode event");
+    let decoded = Frame::decode_length_prefixed(&bytes).expect("decode event");
+
+    match decoded.into_body() {
+        FrameBody::SubscriptionEvent { event, .. } => event,
+        other => panic!("expected subscription event, got {other:?}"),
+    }
+}
+
 #[test]
 fn owner_operations_round_trip_through_length_prefixed_frames() {
     let launch = Operation::Launch(EngineLaunch {
@@ -95,6 +119,20 @@ fn owner_replies_round_trip_through_length_prefixed_frames() {
         reason: RetirementRejectionReason::EngineStillRunning,
     });
     assert_eq!(round_trip_reply(blocked.clone()), blocked);
+}
+
+#[test]
+fn owner_events_round_trip_through_length_prefixed_frames() {
+    let operation = Event::OperationReceived(OperationReceived {
+        operation: OperationKind::Launch,
+    });
+    assert_eq!(round_trip_event(operation.clone()), operation);
+
+    let effect = Event::EffectEmitted(EffectEmitted {
+        operation: OperationKind::Launch,
+        outcome: EffectOutcome::Launched,
+    });
+    assert_eq!(round_trip_event(effect.clone()), effect);
 }
 
 #[test]

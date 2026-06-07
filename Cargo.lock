@@ -130,7 +130,7 @@ dependencies = [
 [[package]]
 name = "nota-codec"
 version = "0.1.0"
-source = "git+https://github.com/LiGoldragon/nota-codec.git?branch=main#ae6187e1053e7c07234ac126664113d1c3d95c91"
+source = "git+https://github.com/LiGoldragon/nota-codec.git?branch=main#f761421c383121a04df761a444a3778d1c0b137d"
 dependencies = [
  "camino",
  "nota-derive",
@@ -140,7 +140,7 @@ dependencies = [
 [[package]]
 name = "nota-derive"
 version = "0.1.0"
-source = "git+https://github.com/LiGoldragon/nota-derive.git?branch=main#f22a947a94024be2d9b60eba3ee51dd492b29852"
+source = "git+https://github.com/LiGoldragon/nota-derive.git?branch=main#11347da1ff4425ff4e743c15a3e3ec322b54ea9a"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -162,7 +162,6 @@ dependencies = [
  "signal-engine-management",
  "signal-frame",
  "signal-persona-origin",
- "signal-sema",
 ]
 
 [[package]]
@@ -272,7 +271,7 @@ checksum = "b39cdef0fa800fc44525c84ccb54a029961a8215f9619753635a9c0d2538d46d"
 [[package]]
 name = "signal-engine-management"
 version = "0.1.0"
-source = "git+https://github.com/LiGoldragon/signal-engine-management.git?branch=main#14d2436e8c29bc000f8b505df0611ae9538d7309"
+source = "git+https://github.com/LiGoldragon/signal-engine-management.git?branch=main#6eeff7968a95c8806a919af13d0b879b729d540d"
 dependencies = [
  "nota-codec",
  "rkyv",
@@ -283,7 +282,7 @@ dependencies = [
 [[package]]
 name = "signal-frame"
 version = "0.1.0"
-source = "git+https://github.com/LiGoldragon/signal-frame.git?branch=main#75837dce71ca59a8e675ed2082076a4a8fc07339"
+source = "git+https://github.com/LiGoldragon/signal-frame.git?branch=main#ed066bcce411faf4cb4c7e8aad45cf72f8c9aa9e"
 dependencies = [
  "nota-codec",
  "paste",
@@ -295,8 +294,9 @@ dependencies = [
 [[package]]
 name = "signal-frame-macros"
 version = "0.1.0"
-source = "git+https://github.com/LiGoldragon/signal-frame.git?branch=main#75837dce71ca59a8e675ed2082076a4a8fc07339"
+source = "git+https://github.com/LiGoldragon/signal-frame.git?branch=main#ed066bcce411faf4cb4c7e8aad45cf72f8c9aa9e"
 dependencies = [
+ "nota-codec",
  "proc-macro2",
  "quote",
  "syn",
@@ -305,20 +305,10 @@ dependencies = [
 [[package]]
 name = "signal-persona-origin"
 version = "0.1.0"
-source = "git+https://github.com/LiGoldragon/signal-persona-origin.git?branch=main#12bab3206a3034bf9e508c1064e749daa9340615"
+source = "git+https://github.com/LiGoldragon/signal-persona-origin.git?branch=main#837a6c6d2bac56974dbd13c47496a2d0d93b701d"
 dependencies = [
  "nota-codec",
  "rkyv",
-]
-
-[[package]]
-name = "signal-sema"
-version = "0.1.0"
-source = "git+https://github.com/LiGoldragon/signal-sema.git?branch=main#22b036a095857b42a81556666e093f03bf4533a1"
-dependencies = [
- "nota-codec",
- "rkyv",
- "thiserror",
 ]
 
 [[package]]
