@@ -5,7 +5,7 @@
 //! manager status queries. The ordinary manager-to-child lifecycle relation
 //! lives in `signal-engine-management`.
 
-use nota_codec::{NotaEnum, NotaRecord, NotaTransparent};
+use nota_next::{NotaDecode, NotaEncode};
 use rkyv::{Archive, Deserialize as RkyvDeserialize, Serialize as RkyvSerialize};
 use signal_frame::signal_channel;
 
@@ -21,7 +21,8 @@ pub use signal_frame::{
     Archive,
     RkyvSerialize,
     RkyvDeserialize,
-    NotaTransparent,
+    NotaEncode,
+    NotaDecode,
     Debug,
     Clone,
     Copy,
@@ -41,7 +42,18 @@ impl EngineGeneration {
     }
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaEnum, Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(
+    Archive,
+    RkyvSerialize,
+    RkyvDeserialize,
+    NotaEncode,
+    NotaDecode,
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+)]
 pub enum EnginePhase {
     Starting,
     Running,
@@ -50,19 +62,43 @@ pub enum EnginePhase {
     Stopped,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct EngineStatus {
     pub generation: EngineGeneration,
     pub phase: EnginePhase,
     pub components: Vec<ComponentStatus>,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaEnum, Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(
+    Archive,
+    RkyvSerialize,
+    RkyvDeserialize,
+    NotaEncode,
+    NotaDecode,
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+)]
 pub enum EngineStatusScope {
     WholeEngine,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaEnum, Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(
+    Archive,
+    RkyvSerialize,
+    RkyvDeserialize,
+    NotaEncode,
+    NotaDecode,
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+)]
 pub enum EngineCatalogScope {
     AllEngines,
 }
@@ -71,7 +107,8 @@ pub enum EngineCatalogScope {
     Archive,
     RkyvSerialize,
     RkyvDeserialize,
-    NotaTransparent,
+    NotaEncode,
+    NotaDecode,
     Debug,
     Clone,
     PartialEq,
@@ -92,85 +129,131 @@ impl EngineLabel {
     }
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct EngineLaunch {
     pub label: EngineLabel,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaEnum, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub enum Query {
     Catalog(EngineCatalogScope),
     EngineStatus(EngineStatusScope),
     ComponentStatus(ComponentName),
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaEnum, Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(
+    Archive,
+    RkyvSerialize,
+    RkyvDeserialize,
+    NotaEncode,
+    NotaDecode,
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+)]
 pub enum LaunchRejectionReason {
     EngineLabelAlreadyExists,
     EngineLimitReached,
     LaunchPlanRejected,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct LaunchAcceptance {
     pub engine: signal_persona_origin::EngineIdentifier,
     pub label: EngineLabel,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct LaunchRejection {
     pub label: EngineLabel,
     pub reason: LaunchRejectionReason,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaEnum, Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(
+    Archive,
+    RkyvSerialize,
+    RkyvDeserialize,
+    NotaEncode,
+    NotaDecode,
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+)]
 pub enum RetirementRejectionReason {
     EngineNotFound,
     EngineStillRunning,
     EngineHasLiveRoutes,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct RetirementRejection {
     pub engine: signal_persona_origin::EngineIdentifier,
     pub reason: RetirementRejectionReason,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct EngineCatalogEntry {
     pub engine: signal_persona_origin::EngineIdentifier,
     pub label: EngineLabel,
     pub phase: EnginePhase,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct EngineCatalog {
     pub engines: Vec<EngineCatalogEntry>,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct ComponentStartup {
     pub component: ComponentName,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct ComponentShutdown {
     pub component: ComponentName,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct ActionAcceptance {
     pub component: ComponentName,
     pub desired_state: ComponentDesiredState,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaEnum, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub enum ActionRejectionReason {
     ComponentNotManaged,
     ComponentAlreadyInDesiredState,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct ActionRejection {
     pub component: ComponentName,
     pub reason: ActionRejectionReason,
@@ -203,13 +286,25 @@ signal_channel! {
     }
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct OperationReceived {
     pub operation: OperationKind,
 }
 
 #[derive(
-    Archive, RkyvSerialize, RkyvDeserialize, NotaEnum, Debug, Clone, Copy, PartialEq, Eq, Hash,
+    Archive,
+    RkyvSerialize,
+    RkyvDeserialize,
+    NotaEncode,
+    NotaDecode,
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    Hash,
 )]
 pub enum EffectOutcome {
     Launched,
@@ -221,7 +316,9 @@ pub enum EffectOutcome {
     NoChange,
 }
 
-#[derive(Archive, RkyvSerialize, RkyvDeserialize, NotaRecord, Debug, Clone, PartialEq, Eq)]
+#[derive(
+    Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
+)]
 pub struct EffectEmitted {
     pub operation: OperationKind,
     pub outcome: EffectOutcome,

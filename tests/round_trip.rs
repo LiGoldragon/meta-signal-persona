@@ -1,4 +1,4 @@
-use nota_codec::{Decoder, Encoder, NotaDecode, NotaEncode};
+use nota_next::{NotaEncode, NotaSource};
 use owner_signal_persona::{
     ActionAcceptance, ActionRejection, ActionRejectionReason, ComponentDesiredState,
     ComponentHealth, ComponentName, ComponentShutdown, ComponentStartup, ComponentStatus,
@@ -140,13 +140,12 @@ fn owner_text_shape_stays_canonical() {
     let request = Operation::Launch(EngineLaunch {
         label: EngineLabel::new("research"),
     });
-    let mut encoder = Encoder::new();
-    request.encode(&mut encoder).expect("encode");
-    let text = encoder.into_string();
-    let mut decoder = Decoder::new(&text);
-    let recovered = Operation::decode(&mut decoder).expect("decode");
+    let text = request.to_nota();
+    let recovered = NotaSource::new(&text)
+        .parse::<Operation>()
+        .expect("decode operation");
     assert_eq!(recovered, request);
-    assert_eq!(text, "(Launch (research))");
+    assert_eq!(text, "(Launch ([research]))");
 
     let reply = Reply::EngineStatus(EngineStatus {
         generation: EngineGeneration::new(1),
@@ -158,15 +157,14 @@ fn owner_text_shape_stays_canonical() {
             health: ComponentHealth::Running,
         }],
     });
-    let mut encoder = Encoder::new();
-    reply.encode(&mut encoder).expect("encode");
-    let text = encoder.into_string();
-    let mut decoder = Decoder::new(&text);
-    let recovered = Reply::decode(&mut decoder).expect("decode");
+    let text = reply.to_nota();
+    let recovered = NotaSource::new(&text)
+        .parse::<Reply>()
+        .expect("decode reply");
     assert_eq!(recovered, reply);
     assert_eq!(
         text,
-        "(EngineStatus (1 Running [(persona-router Router Running Running)]))"
+        "(EngineStatus (1 Running [([persona-router] Router Running Running)]))"
     );
 }
 

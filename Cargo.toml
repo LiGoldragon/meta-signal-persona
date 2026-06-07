@@ -2,7 +2,7 @@
 name         = "owner-signal-persona"
 version      = "0.1.0"
 edition      = "2024"
-rust-version = "1.85"
+rust-version = "1.88"
 license      = "MIT OR Apache-2.0"
 repository   = "https://github.com/LiGoldragon/owner-signal-persona"
 description  = "OwnerSignal contract for privileged Persona engine-manager commands."
@@ -13,7 +13,7 @@ name = "owner_signal_persona"
 path = "src/lib.rs"
 
 [dependencies]
-nota-codec = { git = "https://github.com/LiGoldragon/nota-codec.git", branch = "main" }
+nota-next = { git = "https://github.com/LiGoldragon/nota-next.git", branch = "main" }
 rkyv = { version = "0.8", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
 signal-frame = { git = "https://github.com/LiGoldragon/signal-frame.git", branch = "main" }
 signal-persona-origin = { git = "https://github.com/LiGoldragon/signal-persona-origin.git", branch = "main" }
