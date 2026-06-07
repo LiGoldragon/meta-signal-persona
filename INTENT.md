@@ -1,5 +1,15 @@
 # INTENT — owner-signal-persona
 
+> **DEPRECATED — does not match the two-contract invariant.** Every component
+> has exactly two contracts: `signal-<component>` (ordinary working signal) and
+> `meta-signal-<component>` (meta policy signal). There is no `owner-signal-*`
+> channel. `owner-signal-persona` is the deprecated **OwnerSignal** form
+> (OwnerSignal → MetaSignal, Spirit `hnpo`); its privileged surface belongs in
+> **`meta-signal-persona`** (to be created). Persona's canonical pair is
+> `signal-persona` (ordinary) + `meta-signal-persona` (meta). Per psyche
+> 2026-06-07 (Spirit `n0ss`). The text below describes the old three-crate
+> split and is retained only until the surface folds into `meta-signal-persona`.
+
 *The owner-only wire contract for privileged Persona engine-manager commands.
 Defines the typed request/reply channel that the Persona owner uses to launch
 and retire engine contexts, query catalog/engine/component status, and start or

@@ -1,5 +1,11 @@
 # owner-signal-persona — Architecture
 
+> **DEPRECATED — off the two-contract invariant.** Every component has exactly
+> `signal-<component>` + `meta-signal-<component>`; there is no `owner-signal-*`
+> channel. This is the deprecated OwnerSignal form (→ MetaSignal, Spirit
+> `hnpo`); its surface folds into `meta-signal-persona`. Per psyche `n0ss`
+> (2026-06-07). The text below describes the old split.
+
 `owner-signal-persona` is the owner-only Signal contract for privileged
 Persona engine-manager commands.
 
