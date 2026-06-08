@@ -24,8 +24,7 @@ Before changing code in this repo, read:
 ## Does Not Own
 
 - Persona daemon actors or storage;
-- manager-to-child lifecycle traffic, which lives in
-  `signal-engine-management`;
+- manager-to-child lifecycle traffic, which lives in `signal-persona`;
 - component-domain traffic;
 - CLI parsing or socket policy.
 

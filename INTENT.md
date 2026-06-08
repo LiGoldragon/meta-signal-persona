@@ -12,7 +12,7 @@ This file carries only the intent that is FOR this meta policy `meta-signal-pers
 contract. Workspace-shape intent stays in the primary workspace `primary/INTENT.md`.
 Component daemon intent stays in `persona/INTENT.md`. The ordinary
 manager-to-supervised-component lifecycle protocol stays in
-`signal-engine-management/INTENT.md`.
+`signal-persona/INTENT.md`.
 
 ## Why this repo exists
 
@@ -21,7 +21,7 @@ It carries the requests that can change the engine or component lifecycle.
 Component-to-component domain contracts stay in their relation-specific
 `signal-persona-*` and `meta-signal-persona-*` crates; the ordinary
 manager-to-component lifecycle protocol (`Announce`, readiness, health, `Stop`,
-`SpawnEnvelope`) lives in `signal-engine-management`.
+`SpawnEnvelope`) lives in `signal-persona`.
 
 ## The channel shape
 
@@ -42,7 +42,7 @@ types are `Operation`, `OperationKind`, `Reply`, `Frame`, `FrameBody`,
 ## Constraints
 
 - Meta policy mutating authority enters through this crate, not through
-  `signal-engine-management`.
+  `signal-persona`.
 - Request payloads do not carry caller identity, timestamps, or minted engine
   identity — those facts are infrastructure-owned and minted at the daemon.
 - Wire enums are closed. No `Unknown` escape hatch.
@@ -58,13 +58,13 @@ This crate does not own:
 - daemon actors, persistence, process spawning, socket paths, or CLI parsing;
 - component-domain traffic (lives in relation-specific `signal-persona-*` crates);
 - the ordinary lifecycle protocol (`Announce`, readiness, health, `Stop`,
-  `SpawnEnvelope`) — that lives in `signal-engine-management`.
+  `SpawnEnvelope`) — that lives in `signal-persona`.
 
 ## See also
 
 - `ARCHITECTURE.md` — wire shape, invariants, and the engine-management boundary.
 - `../persona/INTENT.md` — daemon-side engine-manager intent.
-- `../signal-engine-management/ARCHITECTURE.md` — ordinary lifecycle protocol.
+- `../signal-persona/ARCHITECTURE.md` — ordinary lifecycle protocol.
 - `../signal-persona-origin/ARCHITECTURE.md` — shared origin/identity vocabulary.
 - `primary/skills/contract-repo.md` — contract repo discipline and naming rules.
 - `primary/skills/component-triad.md` — repo triad structure and authority tiers.

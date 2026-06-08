@@ -17,8 +17,8 @@ can change the engine or component lifecycle:
 | `Stop(ComponentShutdown)` | order a supervised component to stop |
 
 The ordinary manager-to-supervised-component lifecycle protocol lives in
-`signal-engine-management`. That crate carries `Announce`, readiness,
-health, `Stop`, and `SpawnEnvelope`.
+`signal-persona`. That crate carries `Announce`, readiness, health, `Stop`,
+and `SpawnEnvelope`.
 
 ## Non-Goals
 
@@ -51,7 +51,7 @@ The generated root types are `Operation`, `OperationKind`, `Reply`, `Frame`,
 ## Invariants
 
 - Meta policy mutating authority enters through this crate, not through
-  `signal-engine-management`.
+  `signal-persona`.
 - Request payloads do not carry caller identity, timestamps, or minted engine
   identity. Those facts are infrastructure-owned.
 - Wire enums are closed. There is no `Unknown` escape hatch.
@@ -62,5 +62,5 @@ The generated root types are `Operation`, `OperationKind`, `Reply`, `Frame`,
 
 ## See Also
 
-- `/git/github.com/LiGoldragon/signal-engine-management/ARCHITECTURE.md`
+- `/git/github.com/LiGoldragon/signal-persona/ARCHITECTURE.md`
 - `/git/github.com/LiGoldragon/signal-persona-origin/ARCHITECTURE.md`

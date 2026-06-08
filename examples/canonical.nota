@@ -1,4 +1,4 @@
-;; Canonical NOTA examples for owner-signal-persona.
+;; Canonical NOTA examples for meta-signal-persona.
 
 (Launch ([example-engine]))
 (Query (Catalog AllEngines))
