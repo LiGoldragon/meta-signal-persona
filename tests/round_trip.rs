@@ -32,8 +32,8 @@ fn event_identifier() -> StreamEventIdentifier {
     )
 }
 
-fn engine_identifier(label: &str) -> signal_persona_origin::EngineIdentifier {
-    signal_persona_origin::EngineIdentifier::new(label)
+fn engine_identifier(label: &str) -> signal_persona::origin::EngineIdentifier {
+    signal_persona::origin::EngineIdentifier::new(label)
 }
 
 fn router_name() -> ComponentName {

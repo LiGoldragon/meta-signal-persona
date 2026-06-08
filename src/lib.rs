@@ -167,7 +167,7 @@ pub enum LaunchRejectionReason {
     Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
 )]
 pub struct LaunchAcceptance {
-    pub engine: signal_persona_origin::EngineIdentifier,
+    pub engine: signal_persona::origin::EngineIdentifier,
     pub label: EngineLabel,
 }
 
@@ -201,7 +201,7 @@ pub enum RetirementRejectionReason {
     Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
 )]
 pub struct RetirementRejection {
-    pub engine: signal_persona_origin::EngineIdentifier,
+    pub engine: signal_persona::origin::EngineIdentifier,
     pub reason: RetirementRejectionReason,
 }
 
@@ -209,7 +209,7 @@ pub struct RetirementRejection {
     Archive, RkyvSerialize, RkyvDeserialize, NotaEncode, NotaDecode, Debug, Clone, PartialEq, Eq,
 )]
 pub struct EngineCatalogEntry {
-    pub engine: signal_persona_origin::EngineIdentifier,
+    pub engine: signal_persona::origin::EngineIdentifier,
     pub label: EngineLabel,
     pub phase: EnginePhase,
 }
@@ -263,7 +263,7 @@ signal_channel! {
     channel Meta {
         operation Launch(EngineLaunch),
         operation Query(Query),
-        operation Retire(signal_persona_origin::EngineIdentifier),
+        operation Retire(signal_persona::origin::EngineIdentifier),
         operation Start(ComponentStartup),
         operation Stop(ComponentShutdown),
     }
@@ -274,7 +274,7 @@ signal_channel! {
         EngineStatus(EngineStatus),
         ComponentStatus(ComponentStatus),
         ComponentMissing(ComponentName),
-        Retired(signal_persona_origin::EngineIdentifier),
+        Retired(signal_persona::origin::EngineIdentifier),
         RetireRejected(RetirementRejection),
         ActionAccepted(ActionAcceptance),
         ActionRejected(ActionRejection),
