@@ -1,17 +1,11 @@
-# owner-signal-persona — Architecture
+# meta-signal-persona — Architecture
 
-> **DEPRECATED — off the two-contract invariant.** Every component has exactly
-> `signal-<component>` + `meta-signal-<component>`; there is no `owner-signal-*`
-> channel. This is the deprecated OwnerSignal form (→ MetaSignal, Spirit
-> `hnpo`); its surface folds into `meta-signal-persona`. Per psyche `n0ss`
-> (2026-06-07). The text below describes the old split.
-
-`owner-signal-persona` is the owner-only Signal contract for privileged
+`meta-signal-persona` is the meta policy Signal contract for privileged
 Persona engine-manager commands.
 
 ## Boundary
 
-This crate is the policy side of the Persona triad. It carries requests that
+This crate is the meta policy side of the Persona triad. It carries requests that
 can change the engine or component lifecycle:
 
 | Operation | Meaning |
@@ -31,7 +25,7 @@ health, `Stop`, and `SpawnEnvelope`.
 This crate does not own daemon actors, persistence, process spawning, socket
 paths, CLI parsing, or component-domain traffic. Component-to-component domain
 contracts stay in their relation-specific `signal-persona-*` and
-`owner-signal-persona-*` crates.
+`meta-signal-persona-*` crates.
 
 ## Wire Shape
 
@@ -39,7 +33,7 @@ The crate uses one `signal_channel!` declaration at the crate root:
 
 ```rust
 signal_channel! {
-    channel Owner {
+    channel Meta {
         operation Launch(EngineLaunch),
         operation Query(Query),
         operation Retire(signal_persona_origin::EngineIdentifier),
@@ -56,13 +50,15 @@ The generated root types are `Operation`, `OperationKind`, `Reply`, `Frame`,
 
 ## Invariants
 
-- Owner-only mutating authority enters through this crate, not through
+- Meta policy mutating authority enters through this crate, not through
   `signal-engine-management`.
 - Request payloads do not carry caller identity, timestamps, or minted engine
   identity. Those facts are infrastructure-owned.
 - Wire enums are closed. There is no `Unknown` escape hatch.
-- Round-trip tests cover frame encoding and NOTA text encoding for the owner
-  surface.
+- Round-trip tests cover frame encoding and NOTA text encoding for the meta
+  surface. The crate-local default `nota-text` feature maps to
+  `signal-frame/nota-text` so generated operation and effect kinds carry text
+  codecs when the text witnesses build.
 
 ## See Also
 

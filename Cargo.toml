@@ -1,16 +1,20 @@
 [package]
-name         = "owner-signal-persona"
+name         = "meta-signal-persona"
 version      = "0.1.0"
 edition      = "2024"
 rust-version = "1.88"
 license      = "MIT OR Apache-2.0"
-repository   = "https://github.com/LiGoldragon/owner-signal-persona"
-description  = "OwnerSignal contract for privileged Persona engine-manager commands."
+repository   = "https://github.com/LiGoldragon/meta-signal-persona"
+description  = "MetaSignal contract for privileged Persona engine-manager commands."
 publish      = false
 
 [lib]
-name = "owner_signal_persona"
+name = "meta_signal_persona"
 path = "src/lib.rs"
+
+[features]
+default = ["nota-text"]
+nota-text = ["signal-frame/nota-text"]
 
 [dependencies]
 nota-next = { git = "https://github.com/LiGoldragon/nota-next.git", branch = "main" }

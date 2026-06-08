@@ -1,24 +1,14 @@
-# INTENT — owner-signal-persona
+# INTENT — meta-signal-persona
 
-> **DEPRECATED — does not match the two-contract invariant.** Every component
-> has exactly two contracts: `signal-<component>` (ordinary working signal) and
-> `meta-signal-<component>` (meta policy signal). There is no `owner-signal-*`
-> channel. `owner-signal-persona` is the deprecated **OwnerSignal** form
-> (OwnerSignal → MetaSignal, Spirit `hnpo`); its privileged surface belongs in
-> **`meta-signal-persona`** (to be created). Persona's canonical pair is
-> `signal-persona` (ordinary) + `meta-signal-persona` (meta). Per psyche
-> 2026-06-07 (Spirit `n0ss`). The text below describes the old three-crate
-> split and is retained only until the surface folds into `meta-signal-persona`.
-
-*The owner-only wire contract for privileged Persona engine-manager commands.
-Defines the typed request/reply channel that the Persona owner uses to launch
+*The meta policy wire contract for privileged Persona engine-manager commands.
+Defines the typed request/reply channel that Persona policy uses to launch
 and retire engine contexts, query catalog/engine/component status, and start or
 stop supervised components.
 Companion to `ARCHITECTURE.md` and `Cargo.toml`. Maintenance: `primary/skills/repo-intent.md`.*
 
 ## Repo-scope only
 
-This file carries only the intent that is FOR this owner-only `owner-signal-persona`
+This file carries only the intent that is FOR this meta policy `meta-signal-persona`
 contract. Workspace-shape intent stays in the primary workspace `primary/INTENT.md`.
 Component daemon intent stays in `persona/INTENT.md`. The ordinary
 manager-to-supervised-component lifecycle protocol stays in
@@ -26,16 +16,16 @@ manager-to-supervised-component lifecycle protocol stays in
 
 ## Why this repo exists
 
-`owner-signal-persona` is the **owner-only policy side of the Persona triad**.
+`meta-signal-persona` is the **meta policy side of the Persona triad**.
 It carries the requests that can change the engine or component lifecycle.
 Component-to-component domain contracts stay in their relation-specific
-`signal-persona-*` and `owner-signal-persona-*` crates; the ordinary
+`signal-persona-*` and `meta-signal-persona-*` crates; the ordinary
 manager-to-component lifecycle protocol (`Announce`, readiness, health, `Stop`,
 `SpawnEnvelope`) lives in `signal-engine-management`.
 
 ## The channel shape
 
-The owner channel (`signal_channel! { channel Owner { ... } }`) carries:
+The meta channel (`signal_channel! { channel Meta { ... } }`) carries:
 
 - **Requests:** `Launch(EngineLaunch)` (create a new engine context),
   `Query(Query)` (read catalog, engine status, or component status),
@@ -51,14 +41,14 @@ types are `Operation`, `OperationKind`, `Reply`, `Frame`, `FrameBody`,
 
 ## Constraints
 
-- Owner-only mutating authority enters through this crate, not through
+- Meta policy mutating authority enters through this crate, not through
   `signal-engine-management`.
 - Request payloads do not carry caller identity, timestamps, or minted engine
   identity — those facts are infrastructure-owned and minted at the daemon.
 - Wire enums are closed. No `Unknown` escape hatch.
-- This crate carries only typed wire vocabulary, NOTA codecs, and round-trip
-  witnesses — no daemon actors, persistence, process spawning, socket paths, or
-  CLI parsing.
+- This crate carries only typed wire vocabulary, explicit NOTA text codecs for
+  CLI/tooling projection, and round-trip witnesses — no daemon actors,
+  persistence, process spawning, socket paths, or CLI parsing.
 - Every operation and reply round-trips through both rkyv frames and NOTA text.
 
 ## Non-ownership

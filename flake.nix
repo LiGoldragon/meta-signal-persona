@@ -1,5 +1,5 @@
 {
-  description = "OwnerSignal contract for privileged Persona engine-manager commands.";
+  description = "MetaSignal contract for privileged Persona engine-manager commands.";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -73,7 +73,7 @@
         };
 
         devShells.default = pkgs.mkShell {
-          name = "owner-signal-persona";
+          name = "meta-signal-persona";
           packages = [
             pkgs.jujutsu
             pkgs.pkg-config

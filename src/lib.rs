@@ -1,6 +1,6 @@
-//! OwnerSignal contract for privileged Persona engine-manager commands.
+//! MetaSignal contract for privileged Persona engine-manager commands.
 //!
-//! This crate carries the owner-only surface for the top-level Persona
+//! This crate carries the meta policy surface for the top-level Persona
 //! daemon: engine launch, retirement, component lifecycle orders, and
 //! manager status queries. The ordinary manager-to-child lifecycle relation
 //! lives in `signal-engine-management`.
@@ -260,7 +260,7 @@ pub struct ActionRejection {
 }
 
 signal_channel! {
-    channel Owner {
+    channel Meta {
         operation Launch(EngineLaunch),
         operation Query(Query),
         operation Retire(signal_persona_origin::EngineIdentifier),

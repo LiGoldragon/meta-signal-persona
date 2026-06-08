@@ -1,5 +1,4 @@
-use nota_next::{NotaEncode, NotaSource};
-use owner_signal_persona::{
+use meta_signal_persona::{
     ActionAcceptance, ActionRejection, ActionRejectionReason, ComponentDesiredState,
     ComponentHealth, ComponentName, ComponentShutdown, ComponentStartup, ComponentStatus,
     EffectEmitted, EffectOutcome, EngineCatalog, EngineCatalogEntry, EngineCatalogScope,
@@ -7,6 +6,7 @@ use owner_signal_persona::{
     Event, Frame, FrameBody, Operation, OperationKind, OperationReceived, Query, Reply,
     RetirementRejection, RetirementRejectionReason,
 };
+use nota_next::{NotaEncode, NotaSource};
 use signal_frame::{
     ExchangeIdentifier, ExchangeLane, LaneSequence, NonEmpty, Reply as FrameReply, RequestPayload,
     SessionEpoch, StreamEventIdentifier, SubReply, SubscriptionTokenInner,
@@ -90,7 +90,7 @@ fn round_trip_event(event: Event) -> Event {
 }
 
 #[test]
-fn owner_operations_round_trip_through_length_prefixed_frames() {
+fn meta_operations_round_trip_through_length_prefixed_frames() {
     let launch = Operation::Launch(EngineLaunch {
         label: EngineLabel::new("research"),
     });
@@ -104,7 +104,7 @@ fn owner_operations_round_trip_through_length_prefixed_frames() {
 }
 
 #[test]
-fn owner_replies_round_trip_through_length_prefixed_frames() {
+fn meta_replies_round_trip_through_length_prefixed_frames() {
     let catalog = Reply::Catalog(EngineCatalog {
         engines: vec![EngineCatalogEntry {
             engine: engine_identifier("default"),
@@ -122,7 +122,7 @@ fn owner_replies_round_trip_through_length_prefixed_frames() {
 }
 
 #[test]
-fn owner_events_round_trip_through_length_prefixed_frames() {
+fn meta_events_round_trip_through_length_prefixed_frames() {
     let operation = Event::OperationReceived(OperationReceived {
         operation: OperationKind::Launch,
     });
@@ -136,7 +136,7 @@ fn owner_events_round_trip_through_length_prefixed_frames() {
 }
 
 #[test]
-fn owner_text_shape_stays_canonical() {
+fn meta_text_shape_stays_canonical() {
     let request = Operation::Launch(EngineLaunch {
         label: EngineLabel::new("research"),
     });
@@ -152,7 +152,7 @@ fn owner_text_shape_stays_canonical() {
         phase: EnginePhase::Running,
         components: vec![ComponentStatus {
             name: router_name(),
-            kind: owner_signal_persona::ComponentKind::Router,
+            kind: meta_signal_persona::ComponentKind::Router,
             desired_state: ComponentDesiredState::Running,
             health: ComponentHealth::Running,
         }],
@@ -201,7 +201,7 @@ fn operation_kind_is_generated_by_macro() {
 }
 
 #[test]
-fn component_action_replies_stay_owner_only() {
+fn component_action_replies_stay_meta_policy_only() {
     let accepted = Reply::ActionAccepted(ActionAcceptance {
         component: router_name(),
         desired_state: ComponentDesiredState::Running,
