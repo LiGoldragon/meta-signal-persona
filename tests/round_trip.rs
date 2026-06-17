@@ -145,7 +145,7 @@ fn meta_text_shape_stays_canonical() {
         .parse::<Operation>()
         .expect("decode operation");
     assert_eq!(recovered, request);
-    assert_eq!(text, "(Launch ([research]))");
+    assert_eq!(text, "(Launch (research))");
 
     let reply = Reply::EngineStatus(EngineStatus {
         generation: EngineGeneration::new(1),
@@ -164,7 +164,7 @@ fn meta_text_shape_stays_canonical() {
     assert_eq!(recovered, reply);
     assert_eq!(
         text,
-        "(EngineStatus (1 Running [([persona-router] Router Running Running)]))"
+        "(EngineStatus (1 Running [(persona-router Router Running Running)]))"
     );
 }
 
