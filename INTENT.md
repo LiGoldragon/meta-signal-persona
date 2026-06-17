@@ -25,19 +25,21 @@ manager-to-component lifecycle protocol (`Announce`, readiness, health, `Stop`,
 
 ## The channel shape
 
-The meta channel (`signal_channel! { channel Meta { ... } }`) carries:
+The meta channel is schema-derived from `schema/lib.schema` and carries:
 
 - **Requests:** `Launch(EngineLaunch)` (create a new engine context),
   `Query(Query)` (read catalog, engine status, or component status),
   `Retire(EngineIdentifier)` (retire an engine context),
   `Start(ComponentStartup)` (order a supervised component to run),
   `Stop(ComponentShutdown)` (order a supervised component to stop).
-- **Replies:** the closed `Reply` enumeration matching those operations.
-- **Observations:** the observer stream types emitted by `signal_channel!`.
+- **Replies:** the closed generated `Output` enumeration matching those
+  operations.
 
-`EngineIdentifier` is imported from `signal-persona-origin`. The generated root
-types are `Operation`, `OperationKind`, `Reply`, `Frame`, `FrameBody`,
-`RequestBuilder`, and the observer stream types.
+`EngineIdentifier` and shared component status records are imported from
+`signal-persona`. The generated root types are `Input`, `InputRoute`, `Output`,
+`Frame`, `FrameBody`, short-header constants, and signal-frame encode/decode
+helpers. `Operation`, `OperationKind`, `Query`, and `Reply` are crate-level
+aliases for the meta policy relation.
 
 ## Constraints
 
@@ -46,9 +48,9 @@ types are `Operation`, `OperationKind`, `Reply`, `Frame`, `FrameBody`,
 - Request payloads do not carry caller identity, timestamps, or minted engine
   identity — those facts are infrastructure-owned and minted at the daemon.
 - Wire enums are closed. No `Unknown` escape hatch.
-- This crate carries only typed wire vocabulary, explicit NOTA text codecs for
-  CLI/tooling projection, and round-trip witnesses — no daemon actors,
-  persistence, process spawning, socket paths, or CLI parsing.
+- This crate carries only schema-derived typed wire vocabulary, explicit NOTA
+  text codecs for CLI/tooling projection, and round-trip witnesses — no daemon
+  actors, persistence, process spawning, socket paths, or CLI parsing.
 - Every operation and reply round-trips through both rkyv frames and NOTA text.
 
 ## Non-ownership
@@ -65,6 +67,5 @@ This crate does not own:
 - `ARCHITECTURE.md` — wire shape, invariants, and the engine-management boundary.
 - `../persona/INTENT.md` — daemon-side engine-manager intent.
 - `../signal-persona/ARCHITECTURE.md` — ordinary lifecycle protocol.
-- `../signal-persona-origin/ARCHITECTURE.md` — shared origin/identity vocabulary.
 - `primary/skills/contract-repo.md` — contract repo discipline and naming rules.
 - `primary/skills/component-triad.md` — repo triad structure and authority tiers.
