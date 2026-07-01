@@ -3,6 +3,10 @@
 `meta-signal-persona` is the meta policy Signal contract for privileged
 Persona engine-manager commands.
 
+## 0.5 · Direction
+
+`meta-signal-persona` is the meta policy side of the Persona triad. It carries requests that can change the engine or component lifecycle. Component-to-component domain contracts stay in their relation-specific `signal-persona-*` and `meta-signal-persona-*` crates; the ordinary manager-to-component lifecycle protocol (`Announce`, readiness, health, `Stop`, `SpawnEnvelope`) lives in `signal-persona`. Request payloads do not carry caller identity, timestamps, or minted engine identity — those facts are infrastructure-owned and minted at the daemon.
+
 ## Boundary
 
 This crate is the meta policy side of the Persona triad. It carries requests that
