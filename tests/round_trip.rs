@@ -10,7 +10,7 @@ use meta_signal_persona::{
     ComponentHealth, ComponentKind, EngineGeneration, EngineStatusReport, LifecycleComponentStatus,
 };
 #[cfg(feature = "nota-text")]
-use nota_next::{NotaEncode, NotaSource};
+use nota::{NotaEncode, NotaSource};
 use signal_frame::{
     ExchangeIdentifier, ExchangeLane, LaneSequence, NonEmpty, Reply as FrameReply, RequestPayload,
     SessionEpoch, SubReply,
