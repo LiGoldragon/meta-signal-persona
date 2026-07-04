@@ -36,24 +36,24 @@
 
   EngineGeneration u64
   EnginePhase [Starting Running Degraded Draining Stopped]
-  EngineStatusReport { generation EngineGeneration phase EnginePhase components (Vector LifecycleComponentStatus) }
+  EngineStatusReport { generation.EngineGeneration phase.EnginePhase components.(Vector LifecycleComponentStatus) }
   EngineStatusScope [WholeEngine]
   EngineCatalogScope [AllEngines]
   EngineLabel String
-  EngineLaunch { label EngineLabel }
+  EngineLaunch { label.EngineLabel }
   MetaQuery [(Catalog EngineCatalogScope) (EngineStatus EngineStatusScope) (ComponentStatus ComponentName)]
 
   LaunchRejectionReason [EngineLabelAlreadyExists EngineLimitReached LaunchPlanRejected]
-  LaunchAcceptance { engine EngineIdentifier label EngineLabel }
-  LaunchRejection { label EngineLabel reason LaunchRejectionReason }
+  LaunchAcceptance { engine.EngineIdentifier label.EngineLabel }
+  LaunchRejection { label.EngineLabel reason.LaunchRejectionReason }
   RetirementRejectionReason [EngineNotFound EngineStillRunning EngineHasLiveRoutes]
-  RetirementRejection { engine EngineIdentifier reason RetirementRejectionReason }
-  EngineCatalogEntry { engine EngineIdentifier label EngineLabel phase EnginePhase }
-  EngineCatalog { engines (Vector EngineCatalogEntry) }
+  RetirementRejection { engine.EngineIdentifier reason.RetirementRejectionReason }
+  EngineCatalogEntry { engine.EngineIdentifier label.EngineLabel phase.EnginePhase }
+  EngineCatalog { engines.(Vector EngineCatalogEntry) }
 
-  ComponentStartup { component ComponentName }
-  ComponentShutdown { component ComponentName }
-  ActionAcceptance { component ComponentName desired_state ComponentDesiredState }
+  ComponentStartup { component.ComponentName }
+  ComponentShutdown { component.ComponentName }
+  ActionAcceptance { component.ComponentName desired_state.ComponentDesiredState }
   ActionRejectionReason [ComponentNotManaged ComponentAlreadyInDesiredState]
-  ActionRejection { component ComponentName reason ActionRejectionReason }
+  ActionRejection { component.ComponentName reason.ActionRejectionReason }
 }
