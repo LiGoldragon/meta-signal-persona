@@ -7,12 +7,12 @@
 ;; process spawning, socket paths, and policy execution live in persona.
 
 {
-  ComponentName         signal-persona:lib:ComponentName
-  ComponentKind         signal-persona:lib:ComponentKind
-  ComponentHealth       signal-persona:lib:ComponentHealth
+  ComponentName signal-persona:lib:ComponentName
+  ComponentKind signal-persona:lib:ComponentKind
+  ComponentHealth signal-persona:lib:ComponentHealth
   ComponentDesiredState signal-persona:lib:ComponentDesiredState
   LifecycleComponentStatus signal-persona:lib:ComponentStatus
-  EngineIdentifier      signal-persona:lib:EngineIdentifier
+  EngineIdentifier signal-persona:lib:EngineIdentifier
 }
 [Launch Query Retire Start Stop]
 [Launched LaunchRejected Catalog EngineStatus ComponentStatus ComponentMissing Retired RetireRejected ActionAccepted ActionRejected]
@@ -36,24 +36,24 @@
 
   EngineGeneration u64
   EnginePhase [Starting Running Degraded Draining Stopped]
-  EngineStatusReport { generation EngineGeneration phase EnginePhase components (Vector LifecycleComponentStatus) }
+  EngineStatusReport { EngineGeneration EnginePhase (Vector LifecycleComponentStatus) }
   EngineStatusScope [WholeEngine]
   EngineCatalogScope [AllEngines]
   EngineLabel String
-  EngineLaunch { label EngineLabel }
+  EngineLaunch { EngineLabel }
   MetaQuery [(Catalog EngineCatalogScope) (EngineStatus EngineStatusScope) (ComponentStatus ComponentName)]
 
   LaunchRejectionReason [EngineLabelAlreadyExists EngineLimitReached LaunchPlanRejected]
-  LaunchAcceptance { engine EngineIdentifier label EngineLabel }
-  LaunchRejection { label EngineLabel reason LaunchRejectionReason }
+  LaunchAcceptance { EngineIdentifier EngineLabel }
+  LaunchRejection { EngineLabel LaunchRejectionReason }
   RetirementRejectionReason [EngineNotFound EngineStillRunning EngineHasLiveRoutes]
-  RetirementRejection { engine EngineIdentifier reason RetirementRejectionReason }
-  EngineCatalogEntry { engine EngineIdentifier label EngineLabel phase EnginePhase }
-  EngineCatalog { engines (Vector EngineCatalogEntry) }
+  RetirementRejection { EngineIdentifier RetirementRejectionReason }
+  EngineCatalogEntry { EngineIdentifier EngineLabel EnginePhase }
+  EngineCatalog (Vector EngineCatalogEntry)
 
-  ComponentStartup { component ComponentName }
-  ComponentShutdown { component ComponentName }
-  ActionAcceptance { component ComponentName desired_state ComponentDesiredState }
+  ComponentStartup { ComponentName }
+  ComponentShutdown { ComponentName }
+  ActionAcceptance { ComponentName ComponentDesiredState }
   ActionRejectionReason [ComponentNotManaged ComponentAlreadyInDesiredState]
-  ActionRejection { component ComponentName reason ActionRejectionReason }
+  ActionRejection { ComponentName ActionRejectionReason }
 }

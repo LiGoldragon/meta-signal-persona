@@ -10,7 +10,7 @@ use meta_signal_persona::{
     ComponentHealth, ComponentKind, EngineGeneration, EngineStatusReport, LifecycleComponentStatus,
 };
 #[cfg(feature = "nota-text")]
-use nota_next::{NotaEncode, NotaSource};
+use nota::{NotaEncode, NotaSource};
 use signal_frame::{
     ExchangeIdentifier, ExchangeLane, LaneSequence, NonEmpty, Reply as FrameReply, RequestPayload,
     SessionEpoch, SubReply,
@@ -39,10 +39,10 @@ fn router_name() -> ComponentName {
 #[cfg(feature = "nota-text")]
 fn router_status() -> LifecycleComponentStatus {
     LifecycleComponentStatus {
-        name: router_name(),
-        kind: ComponentKind::Router,
-        desired_state: ComponentDesiredState::Running,
-        health: ComponentHealth::Running,
+        component_name: router_name(),
+        component_kind: ComponentKind::Router,
+        component_desired_state: ComponentDesiredState::Running,
+        component_health: ComponentHealth::Running,
     }
 }
 
@@ -105,9 +105,9 @@ fn meta_operations_round_trip_through_length_prefixed_frames() {
 fn meta_replies_round_trip_through_length_prefixed_frames() {
     let catalog = Reply::Catalog(
         EngineCatalog::new(vec![EngineCatalogEntry {
-            engine: engine_identifier("default"),
-            label: EngineLabel::new("default"),
-            phase: EnginePhase::Running,
+            engine_identifier: engine_identifier("default"),
+            engine_label: EngineLabel::new("default"),
+            engine_phase: EnginePhase::Running,
         }])
         .into(),
     );
@@ -115,8 +115,8 @@ fn meta_replies_round_trip_through_length_prefixed_frames() {
 
     let blocked = Reply::RetireRejected(
         RetirementRejection {
-            engine: engine_identifier("default"),
-            reason: RetirementRejectionReason::EngineStillRunning,
+            engine_identifier: engine_identifier("default"),
+            retirement_rejection_reason: RetirementRejectionReason::EngineStillRunning,
         }
         .into(),
     );
@@ -163,9 +163,9 @@ fn meta_text_shape_stays_canonical() {
 
     let reply = Reply::EngineStatus(
         EngineStatusReport {
-            generation: EngineGeneration::new(1),
-            phase: EnginePhase::Running,
-            components: vec![router_status()],
+            engine_generation: EngineGeneration::new(1),
+            engine_phase: EnginePhase::Running,
+            lifecycle_component_status_vector: vec![router_status()],
         }
         .into(),
     );
@@ -208,8 +208,8 @@ fn operation_kind_is_generated_by_schema() {
 fn component_action_replies_stay_meta_policy_only() {
     let accepted = Reply::ActionAccepted(
         ActionAcceptance {
-            component: router_name(),
-            desired_state: ComponentDesiredState::Running,
+            component_name: router_name(),
+            component_desired_state: ComponentDesiredState::Running,
         }
         .into(),
     );
@@ -217,8 +217,8 @@ fn component_action_replies_stay_meta_policy_only() {
 
     let rejected = Reply::ActionRejected(
         ActionRejection {
-            component: router_name(),
-            reason: ActionRejectionReason::ComponentNotManaged,
+            component_name: router_name(),
+            action_rejection_reason: ActionRejectionReason::ComponentNotManaged,
         }
         .into(),
     );
