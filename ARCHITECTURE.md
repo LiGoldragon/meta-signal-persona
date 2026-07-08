@@ -34,11 +34,11 @@ contracts stay in their relation-specific `signal-persona-*` and
 ## Wire Shape
 
 `schema/lib.schema` declares the meta policy operation and reply roots.
-`schema-rust` emits the `Input` / `InputRoute` / `Output` roots, route
-witnesses, short-header constants, frame aliases, and rkyv/NOTA codecs into
-`src/schema/lib.rs`. The crate root re-exports that generated surface and keeps
-`Operation`, `OperationKind`, `Query`, and `Reply` aliases for the meta policy
-relation.
+`schema-rust`'s TrueSchema emitter emits the `Input` / `InputRoute` / `Output`
+roots, route witnesses, short-header constants, frame aliases, and rkyv/NOTA
+codecs into `src/schema/lib.rs`. The crate root re-exports that generated
+surface and keeps `Operation`, `OperationKind`, `Query`, and `Reply` aliases for
+the meta policy relation.
 
 ## Invariants
 
@@ -55,12 +55,12 @@ relation.
 
 ## Emission
 
-`build.rs` runs `schema-rust`'s wire-contract driver and imports
-`signal-persona`'s schema metadata so shared lifecycle records are defined
-once. Regenerate with `META_SIGNAL_PERSONA_UPDATE_SCHEMA_ARTIFACTS=1 cargo
-build --all-features` after schema edits. The ordinary `signal-persona`
-contract owns shared component names, status records, and engine identifiers;
-this meta contract imports them instead of redefining them.
+`build.rs` runs `schema-rust`'s TrueSchema wire-contract driver and imports
+`signal-persona`'s schema metadata so shared lifecycle records are defined once.
+Regenerate with `META_SIGNAL_PERSONA_UPDATE_SCHEMA_ARTIFACTS=1 cargo build
+--all-features` after schema edits. The ordinary `signal-persona` contract owns
+shared component names, status records, and engine identifiers; this meta
+contract imports them instead of redefining them.
 
 ## See Also
 

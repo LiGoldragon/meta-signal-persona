@@ -184,9 +184,9 @@ pub enum EnginePhase {
 )]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct EngineStatusReport {
-    pub generation: EngineGeneration,
-    pub phase: EnginePhase,
-    pub components: Vec<LifecycleComponentStatus>,
+    pub engine_generation: EngineGeneration,
+    pub engine_phase: EnginePhase,
+    pub lifecycle_component_status_vector: Vec<LifecycleComponentStatus>,
 }
 
 #[rustfmt::skip]
@@ -283,8 +283,8 @@ pub enum LaunchRejectionReason {
 )]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct LaunchAcceptance {
-    pub engine: EngineIdentifier,
-    pub label: EngineLabel,
+    pub engine_identifier: EngineIdentifier,
+    pub engine_label: EngineLabel,
 }
 
 #[rustfmt::skip]
@@ -294,8 +294,8 @@ pub struct LaunchAcceptance {
 )]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct LaunchRejection {
-    pub label: EngineLabel,
-    pub reason: LaunchRejectionReason,
+    pub engine_label: EngineLabel,
+    pub launch_rejection_reason: LaunchRejectionReason,
 }
 
 #[rustfmt::skip]
@@ -326,8 +326,8 @@ pub enum RetirementRejectionReason {
 )]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct RetirementRejection {
-    pub engine: EngineIdentifier,
-    pub reason: RetirementRejectionReason,
+    pub engine_identifier: EngineIdentifier,
+    pub retirement_rejection_reason: RetirementRejectionReason,
 }
 
 #[rustfmt::skip]
@@ -337,9 +337,9 @@ pub struct RetirementRejection {
 )]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct EngineCatalogEntry {
-    pub engine: EngineIdentifier,
-    pub label: EngineLabel,
-    pub phase: EnginePhase,
+    pub engine_identifier: EngineIdentifier,
+    pub engine_label: EngineLabel,
+    pub engine_phase: EnginePhase,
 }
 
 #[rustfmt::skip]
@@ -373,8 +373,8 @@ pub struct ComponentShutdown(ComponentName);
 )]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct ActionAcceptance {
-    pub component: ComponentName,
-    pub desired_state: ComponentDesiredState,
+    pub component_name: ComponentName,
+    pub component_desired_state: ComponentDesiredState,
 }
 
 #[rustfmt::skip]
@@ -404,8 +404,8 @@ pub enum ActionRejectionReason {
 )]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct ActionRejection {
-    pub component: ComponentName,
-    pub reason: ActionRejectionReason,
+    pub component_name: ComponentName,
+    pub action_rejection_reason: ActionRejectionReason,
 }
 
 #[rustfmt::skip]
