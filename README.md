@@ -1,14 +1,20 @@
 # meta-signal-persona
 
-The owner Persona engine-management Interface. It imports ordinary lifecycle
-Types from `signal-persona` by identity and owns the privileged launch,
-retirement, status, catalog, start, and stop relation.
+Meta signal contract for privileged Persona engine-manager commands.
 
-`ethos/interface.ethos` is the sole authored Interface projection. The build
-resolves the exact producer source published by `signal-persona`, assembles the
-owner Interface under its recorded authority, and freshness-checks the strict
-encoded Rust projection. Dotos remains optional and presents the readable
-request, reply, and data names.
+The meta-only wire contract for `persona` — the second leg of the
+two-contract pair (`signal-persona` ordinary + `meta-signal-persona` meta).
+The ordinary plane carries component lifecycle traffic: readiness, health,
+presence, stop. This meta plane carries the owner's privileged operations —
+`Launch` and `Retire` of whole engines, `Start` and `Stop` of managed
+components inside one, and `Query` for component status, engine status and
+the engine catalog.
 
-Run `nix --option substituters https://cache.nixos.org flake check
---print-build-logs` for the complete proof matrix.
+Ordinary lifecycle types the meta plane quotes — `ComponentName`,
+`ComponentDesiredState`, `ComponentStatus`, `EngineIdentifier` — are imported
+from `signal-persona` by name, never redeclared here.
+
+The contract is authored in `ethos/signal.ethos`; `ethos-zero` generates
+`src/generated/signal.rs`, which is committed, and `build.rs` asserts the
+committed generation matches a fresh one. The wire is binary rkyv; the
+optional `datom` feature adds Datom text projection. See `ARCHITECTURE.md`.

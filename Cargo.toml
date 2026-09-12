@@ -1,47 +1,30 @@
 [package]
-name         = "meta-signal-persona"
-version      = "0.3.1"
-edition      = "2024"
+name = "meta-signal-persona"
+version = "2.0.0"
+edition = "2024"
 rust-version = "1.89"
-license      = "MIT OR Apache-2.0"
-repository   = "https://github.com/LiGoldragon/meta-signal-persona"
-description  = "Meta signal contract for privileged Persona engine-manager commands."
-publish      = false
-links        = "meta-signal-persona"
-build        = "build.rs"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/LiGoldragon/meta-signal-persona"
+description = "Meta signal contract for privileged Persona engine-manager commands."
+publish = false
+build = "build.rs"
 
 [lib]
 name = "meta_signal_persona"
 path = "src/lib.rs"
 
-[[test]]
-name = "canonical_examples"
-path = "tests/canonical_examples.rs"
-required-features = ["dotos-text"]
-
 [features]
 default = []
-dotos-text = ["dep:dotos", "signal-frame/dotos-text", "signal-persona/dotos-text"]
+datom = ["dep:datom-codec", "dep:protos", "signal-persona/datom"]
 
 [dependencies]
-signal-frame = { git = "https://github.com/LiGoldragon/signal-frame.git", rev = "8aa0bcaeb29fe9e461a11706a469638d2fd109ac", default-features = false }
-signal-persona = { git = "https://github.com/LiGoldragon/signal-persona.git", rev = "2802259fb1344495b1ad3b701fe81e0b7f9df9c3", default-features = false }
-dotos = { package = "dotos", git = "https://github.com/LiGoldragon/dotos.git", rev = "80c7b17f7ad3cf547d2624c6a243e5de5f85c9f3", optional = true }
+signal-persona = { git = "https://github.com/LiGoldragon/signal-persona.git", rev = "48118557368f26b7292f6b0fb2f98df5cec29fc5", default-features = false }
+datom-codec = { git = "https://github.com/LiGoldragon/datom-codec", rev = "627db67f2655efd9f786864009955005fd8ab2ad", optional = true }
+protos = { git = "https://github.com/LiGoldragon/protos", rev = "171b21f65337983ab624b7b906397a4f1f92c5a3", optional = true }
 rkyv = { version = "0.8", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
-thiserror = "2"
 
 [build-dependencies]
-core-ethos = { git = "https://github.com/LiGoldragon/core-ethos.git", rev = "43b48c779c54ee9f05cbcc111d5d88074b162461" }
-name-table = { git = "https://github.com/LiGoldragon/name-table.git", rev = "a22f48d8040ab9235f3552ad8654ff8e27b8157d" }
-rust-logos = { git = "https://github.com/LiGoldragon/rust-logos.git", rev = "081e99596826b15e2ff7f1356ae8d797b18aeffc" }
-schema-rust = { package = "schema-rust", git = "https://github.com/LiGoldragon/schema-rust.git", rev = "664335240a40728826cfaa09e3100cd867031912", default-features = false }
-sema-translator = { git = "https://github.com/LiGoldragon/sema-translator.git", rev = "287fbd728a05b1a6be1dc8a28bcf3ca06d9916b3", default-features = false }
-signal-persona = { git = "https://github.com/LiGoldragon/signal-persona.git", rev = "2802259fb1344495b1ad3b701fe81e0b7f9df9c3", default-features = false }
-signal-sema-translator = { git = "https://github.com/LiGoldragon/signal-sema-translator.git", rev = "3f41813dd63904c7e2b3da4382eff64ed1bf12fe" }
-structural-codec = { git = "https://github.com/LiGoldragon/structural-codec.git", rev = "879d76f91facedd6d5cbca79e282260e1beb9478" }
-
-[dev-dependencies]
-dotos = { package = "dotos", git = "https://github.com/LiGoldragon/dotos.git", rev = "80c7b17f7ad3cf547d2624c6a243e5de5f85c9f3" }
+ethos-zero = { git = "https://github.com/LiGoldragon/ethos-zero", rev = "de3d9928b156f2e1a92d060b7817af201abfdbef" }
 
 [lints.rust]
 unsafe_code = "forbid"

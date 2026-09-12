@@ -1,0 +1,20 @@
+; Canonical Datom examples for meta-signal-persona.
+
+Launch.primary
+Retire.engine-7
+Start.router
+Stop.mind
+Query.ComponentStatus.router
+Query.EngineStatus.WholeEngine
+Query.Catalog.AllEngines
+
+Launched.{ engine-7 primary }
+LaunchRejected.{ primary EngineLimitReached }
+Retired.engine-7
+RetireRejected.{ engine-7 EngineStillRunning }
+Catalog.[ { engine-7 primary Running } { engine-8 spare Draining } ]
+EngineStatus.{ 4 Running [ { router Router Running Starting } ] }
+ComponentStatus.{ router Router Running Starting }
+ComponentMissing.trace
+ActionAccepted.{ router Running }
+ActionRejected.{ mind ComponentNotManaged }
